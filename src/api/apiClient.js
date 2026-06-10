@@ -28,3 +28,36 @@ export async function loginUser({ email, senha, username }) {
     body: JSON.stringify(payload),
   });
 }
+
+// Transações
+export async function createTransaction({ email, message, type, value, date }) {
+  const payload = { email, message, type, value, date };
+  return await safeFetch(`${BASE_URL}/transactions`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function getTransactions(email) {
+  const encodedEmail = encodeURIComponent(email);
+  return await safeFetch(`${BASE_URL}/transactions?email=${encodedEmail}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
+
+export async function deleteTransaction(id) {
+  return await safeFetch(`${BASE_URL}/transactions/${id}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
+
+export async function getDeletedTransactions(email) {
+  const encodedEmail = encodeURIComponent(email);
+  return await safeFetch(`${BASE_URL}/transactions-deleted?email=${encodedEmail}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  });
+}

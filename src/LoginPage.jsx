@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { loginUser } from './api/apiClient'
 
-function LoginPage({ onSwitch }) {
+function LoginPage({ onSwitch, onLoginSuccess }) {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
@@ -20,7 +20,9 @@ function LoginPage({ onSwitch }) {
     setLoading(false)
     if (res.ok) {
       setMsg('Entrou ✅')
-      // se quiser, aqui pode redirecionar ou salvar token
+      setTimeout(() => {
+        onLoginSuccess(email || username)
+      }, 500)
     } else {
       setMsg(res.body?.error || `Não entrou (${res.status})`)
     }
